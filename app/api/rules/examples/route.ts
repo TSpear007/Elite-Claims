@@ -1,0 +1,1 @@
+import {NextResponse} from 'next/server';export async function GET(){return NextResponse.json({message:'Load RULE_SEED_EXAMPLES.json during database seeding. Every example is COUNSEL_REVIEW, not an active fee authorization.'});}
