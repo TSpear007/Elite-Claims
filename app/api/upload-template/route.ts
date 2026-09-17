@@ -1,0 +1,1 @@
+import {NextResponse} from 'next/server';export async function GET(){const csv='state,county,claimant_name,surplus_amount,case_number,parcel_number,property_address,sale_date,deadline_date,external_id\n';return new NextResponse(csv,{headers:{'content-type':'text/csv; charset=utf-8','content-disposition':'attachment; filename="surplusclaim-county-template.csv"'}});}
