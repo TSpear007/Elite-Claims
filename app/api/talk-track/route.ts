@@ -1,0 +1,2 @@
+import { NextRequest,NextResponse } from 'next/server';import {pivotFor,TALK_TRACKS} from '../../../lib/talk-tracks';
+export async function POST(req:NextRequest){const body=await req.json();const objection=String(body.objection||'');if(!objection)return NextResponse.json({error:'objection required'},{status:400});const stop=/do not (call|contact)|stop calling|remove me/i.test(objection);return NextResponse.json(stop?{action:'SUPPRESS_CONTACT',script:TALK_TRACKS.doNotContact}:{action:'RESPOND',script:pivotFor(objection)});}
