@@ -7,146 +7,190 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  OWNER_SUPER_ADMIN
-  ADMIN
-  COMPLIANCE
-  CASE_MANAGER
-  RESEARCHER
-  MEMBER
-}
-
-enum CaseStatus {
-  NEW
-  RESEARCHING
-  MATCHED
-  COMPLIANCE_REVIEW
-  OUTREACH_APPROVED
-  CONTACTED
-  ENGAGED
-  CLAIM_PREPARATION
-  FILED
-  PAID
-  CLOSED
-  DISQUALIFIED
-}
-
-enum ComplianceStatus {
-  UNREVIEWED
-  REVIEW_REQUIRED
-  APPROVED
-  RESTRICTED
-  BLOCKED
-}
-
-enum OutreachStatus {
-  DRAFT
-  PENDING_COMPLIANCE
-  APPROVED
-  SENT
-  FAILED
-  CANCELLED
-}
+enum Role { OWNER_SUPER_ADMIN ADMIN COMPLIANCE CASE_MANAGER RESEARCHER MEMBER }
+enum CaseStatus { NEW RESEARCHING MATCHED COMPLIANCE_REVIEW OUTREACH_APPROVED CONTACTED ENGAGED CLAIM_PREPARATION FILED PAID CLOSED DISQUALIFIED }
+enum ComplianceStatus { UNREVIEWED REVIEW_REQUIRED APPROVED RESTRICTED BLOCKED }
+enum OutreachStatus { DRAFT PENDING_COMPLIANCE APPROVED SENT FAILED CANCELLED }
+enum UploadStatus { RECEIVED PARSING REVIEW_REQUIRED IMPORTED FAILED }
+enum RuleStatus { UNVERIFIED COUNSEL_REVIEW VERIFIED RESTRICTED BLOCKED }
+enum ConversationOutcome { UNKNOWN INTERESTED CALLBACK REJECTED DO_NOT_CONTACT WRONG_PERSON SIGNED }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  role      Role     @default(MEMBER)
-  planCode  String   @default("FREE")
+  id String @id @default(cuid())
+  email String @unique
+  name String?
+  role Role @default(MEMBER)
+  planCode String @default("FREE")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  cases     ClaimCase[] @relation("CaseOwner")
-  audits    AuditLog[]
+  cases ClaimCase[] @relation("CaseOwner")
+  audits AuditLog[]
 }
 
 model StateSource {
-  id               String   @id @default(cuid())
-  stateCode        String
-  jurisdiction     String
-  agencyName       String
-  sourceName       String
-  sourceUrl        String
-  sourceType       String
-  ingestionMethod  String   @default("MANUAL")
-  active           Boolean  @default(true)
+  id String @id @default(cuid())
+  stateCode String
+  jurisdiction String
+  agencyName String
+  sourceName String
+  sourceUrl String
+  sourceType String
+  ingestionMethod String @default("MANUAL")
+  active Boolean @default(true)
   complianceStatus ComplianceStatus @default(UNREVIEWED)
-  feeRuleNotes     String?
+  feeRuleNotes String?
   contactRuleNotes String?
-  lastReviewedAt   DateTime?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  records          SurplusRecord[]
+  lastReviewedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  records SurplusRecord[]
+  uploads UploadBatch[]
   @@index([stateCode, active])
 }
 
+model JurisdictionRule {
+  id String @id @default(cuid())
+  stateCode String
+  county String
+  surplusType String
+  status RuleStatus @default(UNVERIFIED)
+  statuteCitation String?
+  officialSourceUrl String?
+  feeModel String?
+  maxFeePercent Decimal? @db.Decimal(5,2)
+  maxFeeCents BigInt?
+  waitingPeriodDays Int?
+  solicitationNotes String?
+  licensingNotes String?
+  agreementNotes String?
+  filingNotes String?
+  selfClaimDisclosure String?
+  reviewedBy String?
+  effectiveDate DateTime?
+  lastVerifiedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([stateCode, county, surplusType])
+  @@index([stateCode, county, status])
+}
+
+model UploadBatch {
+  id String @id @default(cuid())
+  sourceId String?
+  source StateSource? @relation(fields: [sourceId], references: [id])
+  fileName String
+  mimeType String?
+  storageKey String?
+  status UploadStatus @default(RECEIVED)
+  rowsReceived Int @default(0)
+  rowsImported Int @default(0)
+  rowsRejected Int @default(0)
+  mapping Json?
+  errors Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model SurplusRecord {
-  id               String   @id @default(cuid())
-  sourceId         String
-  source            StateSource @relation(fields: [sourceId], references: [id])
+  id String @id @default(cuid())
+  sourceId String
+  source StateSource @relation(fields: [sourceId], references: [id])
   externalRecordId String?
-  stateCode        String
-  county            String?
-  claimantName     String?
-  propertyAddress  String?
-  caseNumber       String?
-  amountCents      BigInt
-  saleDate         DateTime?
-  deadlineDate     DateTime?
-  rawData          Json?
-  fingerprint      String   @unique
-  discoveredAt     DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  cases            ClaimCase[]
-  @@index([stateCode, amountCents])
+  stateCode String
+  county String?
+  claimantName String?
+  propertyAddress String?
+  caseNumber String?
+  parcelNumber String?
+  amountCents BigInt
+  saleDate DateTime?
+  deadlineDate DateTime?
+  rawData Json?
+  fingerprint String @unique
+  discoveredAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  cases ClaimCase[]
+  @@index([stateCode, county, amountCents])
   @@index([claimantName])
 }
 
 model ClaimCase {
-  id              String   @id @default(cuid())
-  recordId        String
-  record          SurplusRecord @relation(fields: [recordId], references: [id])
-  ownerId         String?
-  owner           User?    @relation("CaseOwner", fields: [ownerId], references: [id])
-  status          CaseStatus @default(NEW)
-  claimantName    String?
-  claimantEmail   String?
-  claimantPhone   String?
-  feePercent      Decimal? @db.Decimal(5,2)
+  id String @id @default(cuid())
+  recordId String
+  record SurplusRecord @relation(fields: [recordId], references: [id])
+  ownerId String?
+  owner User? @relation("CaseOwner", fields: [ownerId], references: [id])
+  status CaseStatus @default(NEW)
+  claimantName String?
+  claimantEmail String?
+  claimantPhone String?
+  aiScore Int?
+  aiRiskFlags Json?
+  entitlementConfidence Decimal? @db.Decimal(5,2)
+  complianceStatus ComplianceStatus @default(UNREVIEWED)
+  feePercent Decimal? @db.Decimal(5,2)
   expectedFeeCents BigInt?
-  recoveredCents  BigInt?
-  notes           String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  outreach        Outreach[]
+  recoveredCents BigInt?
+  notes String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  outreach Outreach[]
+  conversations Conversation[]
   @@index([status, updatedAt])
+  @@index([aiScore, complianceStatus])
 }
 
 model Outreach {
-  id          String   @id @default(cuid())
-  caseId      String
-  claimCase   ClaimCase @relation(fields: [caseId], references: [id])
-  channel     String
+  id String @id @default(cuid())
+  caseId String
+  claimCase ClaimCase @relation(fields: [caseId], references: [id])
+  channel String
   destination String?
   templateKey String?
-  body        String
-  status      OutreachStatus @default(PENDING_COMPLIANCE)
-  approvedAt  DateTime?
-  sentAt      DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  body String
+  status OutreachStatus @default(PENDING_COMPLIANCE)
+  approvedAt DateTime?
+  sentAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   @@index([status, createdAt])
 }
 
+model Conversation {
+  id String @id @default(cuid())
+  caseId String
+  claimCase ClaimCase @relation(fields: [caseId], references: [id])
+  channel String
+  outcome ConversationOutcome @default(UNKNOWN)
+  objectionCode String?
+  notes String?
+  nextActionAt DateTime?
+  doNotContact Boolean @default(false)
+  createdAt DateTime @default(now())
+  @@index([caseId, createdAt])
+}
+
+model TalkTrack {
+  id String @id @default(cuid())
+  key String @unique
+  title String
+  category String
+  body String
+  requiresDisclosure Boolean @default(true)
+  active Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model AuditLog {
-  id         String   @id @default(cuid())
-  actorId    String?
-  actor      User?    @relation(fields: [actorId], references: [id])
-  action     String
+  id String @id @default(cuid())
+  actorId String?
+  actor User? @relation(fields: [actorId], references: [id])
+  action String
   entityType String
-  entityId   String?
-  metadata   Json?
-  createdAt  DateTime @default(now())
+  entityId String?
+  metadata Json?
+  createdAt DateTime @default(now())
   @@index([entityType, entityId])
   @@index([createdAt])
 }
