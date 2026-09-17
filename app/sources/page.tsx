@@ -1,0 +1,3 @@
+import { SOURCE_REGISTRY_SEED } from "@/lib/states";
+
+export default function SourcesPage(){return <main><div className="eyebrow">Source Registry</div><h1>50-State Coverage</h1><p className="muted">Every state starts in research-required status. Add only verified official/public sources and record jurisdiction-specific compliance notes before enabling outreach.</p><section className="panel"><div className="modules">{SOURCE_REGISTRY_SEED.map(s=><div className="module" key={s.stateCode}><strong>{s.stateCode} · {s.stateName}</strong><span className="badge">Research required</span><p className="muted">Outreach disabled · {s.sources.length} verified sources</p></div>)}</div></section></main>}
