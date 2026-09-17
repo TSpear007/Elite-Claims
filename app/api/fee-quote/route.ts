@@ -1,0 +1,2 @@
+import {NextRequest,NextResponse} from 'next/server';import {calculatePermittedFee} from '../../../lib/compliance-engine';
+export async function POST(req:NextRequest){const b=await req.json();if(!b.rule||b.surplusCents==null)return NextResponse.json({error:'Verified jurisdiction rule and surplus amount required'},{status:400});const rule={...b.rule,maxFeeCents:b.rule.maxFeeCents!=null?BigInt(b.rule.maxFeeCents):null};const q=calculatePermittedFee(rule,BigInt(b.surplusCents),Number(b.requestedPercent||0));return NextResponse.json({...q,feeCents:q.feeCents.toString()});}
