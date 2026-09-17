@@ -1,0 +1,1 @@
+import {NextResponse} from 'next/server';export async function GET(){return NextResponse.json({intake:['CSV','XLS','XLSX','PDF'],previewParser:['CSV'],normalization:true,dedupFingerprint:true,persistentObjectStorage:false,xlsxParser:false,pdfParser:false,productionReady:false});}
