@@ -1,0 +1,2 @@
+import {NextRequest,NextResponse} from 'next/server';import {canContact} from '../../../lib/compliance-engine';
+export async function POST(req:NextRequest){const b=await req.json();if(b.doNotContact)return NextResponse.json({allowed:false,reason:'DO_NOT_CONTACT suppression'});const rule={...b.rule,maxFeeCents:b.rule?.maxFeeCents!=null?BigInt(b.rule.maxFeeCents):null};const result=canContact(rule,b.saleDate?new Date(b.saleDate):null);return NextResponse.json(result);}
