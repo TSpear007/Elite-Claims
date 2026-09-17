@@ -1,0 +1,2 @@
+import { TALK_TRACKS } from '../../lib/talk-tracks';
+export default function ScriptsPage(){return <main><h1>Claimant Talk Tracks</h1><p>Use these as transparent talking points. Honor do-not-contact requests immediately; do not pressure or misrepresent.</p>{Object.entries(TALK_TRACKS).map(([key,body])=><section className="card" key={key}><h2>{key.replaceAll(/([A-Z])/g,' $1')}</h2><p>{body}</p></section>)}</main>}
