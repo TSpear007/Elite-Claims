@@ -1,0 +1,1 @@
+import {NextResponse} from 'next/server';import {TALK_TRACKS} from '../../../lib/talk-tracks';export async function GET(){return NextResponse.json({scripts:TALK_TRACKS,policy:{misrepresentation:false,pressure:false,honorDoNotContact:true,showSelfClaimOption:true,feeRequiresVerifiedRule:true}});}
