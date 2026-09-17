@@ -1,2 +1,1 @@
-import { NextResponse } from "next/server";
-export async function GET(){return NextResponse.json({ok:true,service:"SurplusClaim USA",version:"0.1.0",outreachDefault:"compliance-locked",timestamp:new Date().toISOString()})}
+import {NextResponse} from 'next/server';export async function GET(){return NextResponse.json({ok:true,service:'SurplusClaim USA / Elite-Claims',version:'0.2.0',outreachDefault:'compliance-locked',ownerPlan:'OWNER_SUPER_ADMIN $0',modules:['county-upload','import-preview','ai-score','jurisdiction-rules','fee-quote','contact-eligibility','talk-tracks','cases','revenue'],timestamp:new Date().toISOString()});}
