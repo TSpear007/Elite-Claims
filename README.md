@@ -2,6 +2,16 @@
 
 SurplusClaim USA is a compliance-first surplus-funds discovery and claims workflow platform for public surplus records across the United States.
 
+## Repository projects
+
+### SurplusClaim USA
+
+The primary claims platform in the repository root.
+
+### Malten
+
+Malten is maintained as a separate application category under [`/malten`](./malten/). It contains the North American Business Ecosystem dashboard, Training Sandbox, and future Malten application/deployment files. Malten production and training data must remain isolated from SurplusClaim USA.
+
 ## MVP
 
 - 50-state source registry and ingestion framework
@@ -41,4 +51,4 @@ Set `OWNER_EMAIL` in the environment. The application treats that identity as `O
 
 ## Status
 
-MVP foundation is under active build in this repository.
+SurplusClaim USA and Malten are under active development in separate project areas of this repository.
