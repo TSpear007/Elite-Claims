@@ -4,6 +4,10 @@ The network's production module within `TSpear007/Elite-Claims`, under Malten.
 This is a manual API rendering backend, not a deployed website or automated news feed.
 It uses Python 3.12's standard library and the separate HeyGen API balance.
 
+Changes to this module automatically run the tests and preview in GitHub Actions.
+These checks allow dated bulletins for validation, use no API key, and never submit
+a paid render. Paid generation remains an explicit manual workflow action.
+
 ## Today's prepared bulletin
 
 `bulletins/2026-10-13.json` includes world, American and Baltimore news, Melbourne

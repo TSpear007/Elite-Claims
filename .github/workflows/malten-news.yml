@@ -1,5 +1,14 @@
 name: Malten AI News Network
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'malten/news-network/**'
+      - '.github/workflows/malten-news.yml'
+  pull_request:
+    paths:
+      - 'malten/news-network/**'
+      - '.github/workflows/malten-news.yml'
   workflow_dispatch:
     inputs:
       submit:
@@ -27,13 +36,13 @@ jobs:
         run: python -m unittest discover -s malten/news-network -p 'test_*.py'
       - name: Review bulletin payload
         env:
-          ALLOW_ARCHIVE: ${{ inputs.allow_archive }}
+          ALLOW_ARCHIVE: ${{ github.event_name != 'workflow_dispatch' || inputs.allow_archive }}
         run: |
           args=()
           if [ "$ALLOW_ARCHIVE" = "true" ]; then args+=(--allow-archive); fi
           python malten/news-network/render.py preview "${args[@]}"
       - name: Submit reviewed bulletin
-        if: ${{ inputs.submit }}
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.submit }}
         env:
           HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
           ALLOW_ARCHIVE: ${{ inputs.allow_archive }}
@@ -46,7 +55,7 @@ jobs:
           if [ "$ALLOW_ARCHIVE" = "true" ]; then args+=(--allow-archive); fi
           python malten/news-network/render.py render --submit "${args[@]}"
       - name: Save submission receipt
-        if: ${{ always() && inputs.submit }}
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.submit }}
         uses: actions/upload-artifact@v4
         with:
           name: malten-news-receipt-${{ github.run_id }}
