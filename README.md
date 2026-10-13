@@ -12,6 +12,10 @@ The primary claims platform in the repository root.
 
 Malten is maintained as a separate application category under [`/malten`](./malten/). It contains the North American Business Ecosystem dashboard, Training Sandbox, and future Malten application/deployment files. Malten production and training data must remain isolated from SurplusClaim USA.
 
+### Malten AI News Network
+
+The news production backend is maintained under [`/malten/news-network`](./malten/news-network/). It contains reviewed bulletins, single-presenter configuration, and manual HeyGen API rendering with credentials supplied through GitHub Actions secrets.
+
 ## MVP
 
 - 50-state source registry and ingestion framework

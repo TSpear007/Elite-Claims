@@ -20,6 +20,7 @@ Malten is being developed as a separate application area from SurplusClaim USA s
 - Malten Secure
 - Malten Logistics
 - Training Sandbox
+- [Malten AI News Network](./news-network/) — reviewed bulletins and manual API video rendering
 
 ## Environment separation
 

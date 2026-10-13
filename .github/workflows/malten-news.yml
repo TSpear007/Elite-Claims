@@ -1,0 +1,54 @@
+name: Malten AI News Network
+on:
+  workflow_dispatch:
+    inputs:
+      submit:
+        description: Render the reviewed bulletin using paid HeyGen API balance
+        type: boolean
+        default: false
+      allow_archive:
+        description: Allow rendering the dated October 13 bulletin after that date
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: malten-news-manual
+  cancel-in-progress: false
+jobs:
+  bulletin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check the rendering command
+        run: python -m unittest discover -s malten/news-network -p 'test_*.py'
+      - name: Review bulletin payload
+        env:
+          ALLOW_ARCHIVE: ${{ inputs.allow_archive }}
+        run: |
+          args=()
+          if [ "$ALLOW_ARCHIVE" = "true" ]; then args+=(--allow-archive); fi
+          python malten/news-network/render.py preview "${args[@]}"
+      - name: Submit reviewed bulletin
+        if: ${{ inputs.submit }}
+        env:
+          HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
+          ALLOW_ARCHIVE: ${{ inputs.allow_archive }}
+        run: |
+          if [ "${{ github.run_attempt }}" != "1" ]; then
+            echo 'Check HeyGen for the earlier submission; do not rerun paid generation.'
+            exit 1
+          fi
+          args=()
+          if [ "$ALLOW_ARCHIVE" = "true" ]; then args+=(--allow-archive); fi
+          python malten/news-network/render.py render --submit "${args[@]}"
+      - name: Save submission receipt
+        if: ${{ always() && inputs.submit }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: malten-news-receipt-${{ github.run_id }}
+          path: malten/news-network/output/job.json
+          retention-days: 7
