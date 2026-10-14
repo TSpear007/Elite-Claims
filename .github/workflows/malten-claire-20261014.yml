@@ -1,0 +1,61 @@
+name: Claire bulletin October 14
+on:
+  push:
+    branches: [main]
+    paths: ['malten/news-network/bulletins/2026-10-14.json']
+permissions:
+  contents: read
+concurrency:
+  group: malten-claire-20261014
+  cancel-in-progress: false
+jobs:
+  render:
+    if: github.event.head_commit.message == 'Render Claire bulletin for 2026-10-14 once'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Guard against resubmission
+        run: |
+          test '${{ github.run_attempt }}' = '1'
+          test "$(TZ=America/New_York date +%F)" = '2026-10-14'
+      - name: Preview
+        run: python malten/news-network/render.py preview --bulletin malten/news-network/bulletins/2026-10-14.json
+      - name: Submit once
+        env:
+          HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
+        run: python malten/news-network/render.py render --submit --bulletin malten/news-network/bulletins/2026-10-14.json
+      - name: Wait for existing render
+        env:
+          HEYGEN_API_KEY: ${{ secrets.HEYGEN_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json, sys, time
+          from pathlib import Path
+          sys.path.insert(0, 'malten/news-network')
+          from render import api
+          path = Path('malten/news-network/output/job.json')
+          receipt = json.loads(path.read_text())
+          for attempt in range(30):
+              result = api('GET', '/videos/' + receipt['video_id'])
+              status = result.get('status', 'unknown')
+              receipt['status'] = status
+              path.write_text(json.dumps(receipt, indent=2))
+              print('Existing render:', status, flush=True)
+              if status == 'completed':
+                  break
+              if status in ('failed', 'cancelled'):
+                  raise SystemExit('HeyGen generation failed; do not automatically resubmit.')
+              time.sleep(30)
+          else:
+              raise SystemExit('Render still pending; check the saved video ID without resubmission.')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: claire-20261014-receipt
+          path: malten/news-network/output/job.json
+          retention-days: 7
