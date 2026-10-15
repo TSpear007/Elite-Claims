@@ -10,14 +10,15 @@ import urllib.error
 import urllib.request
 from zoneinfo import ZoneInfo
 
-BASE = "https://api.heygen.com/v3"
+BASE = "https://api.heygen.com"
 
 
 def build_payload(bulletin, allow_archive=False):
     day = dt.date.fromisoformat(bulletin["date"])
     if not allow_archive and day != dt.datetime.now(ZoneInfo("America/New_York")).date():
         raise ValueError("This is an archived bulletin. Refresh reporting or pass --allow-archive.")
-    sections = bulletin["sections"]
+    scenes = bulletin.get("scenes")
+    sections = [scene["script"] for scene in scenes] if scenes else bulletin["sections"]
     if not sections or any(not isinstance(s, str) or not s.strip() for s in sections):
         raise ValueError("Every section must contain reviewed narration.")
     script = "\n\n".join(sections)
@@ -27,6 +28,20 @@ def build_payload(bulletin, allow_archive=False):
         raise ValueError("Include the channel subscription reminder.")
     # Respelling applies only to speech; the editorial source keeps the proper name.
     script = re.sub(r"\bKipchoge\b", "Kip-Cho-Ge", script, flags=re.I)
+    if scenes:
+        inputs = []
+        for scene in scenes:
+            anchor = scene["anchor"]
+            if not anchor.get("avatar_id") or not anchor.get("voice_id"):
+                raise ValueError("Every scene needs a verified avatar and voice.")
+            inputs.append({
+                "character": {"type": "talking_photo", "talking_photo_id": anchor["avatar_id"]},
+                "voice": {"type": "text", "input_text": scene["script"],
+                          "voice_id": anchor["voice_id"], "speed": 1.05},
+                "background": {"type": "color", "value": "#081526"},
+            })
+        return {"title": bulletin["title"], "video_inputs": inputs,
+                "dimension": {"width": 1920, "height": 1080}, "caption": True}
     return {
         "type": "avatar", "title": bulletin["title"],
         "avatar_id": bulletin["anchor"]["avatar_id"],
@@ -71,7 +86,7 @@ def main():
             video_id = receipt["video_id"]
             if not re.fullmatch(r"[A-Za-z0-9_-]+", video_id):
                 raise ValueError("Invalid video ID in receipt.")
-            result = api("GET", "/videos/" + video_id)
+            result = api("GET", "/v3/videos/" + video_id)
             output = {"video_id": video_id, "status": result.get("status", "unknown")}
             if output["status"] == "completed":
                 output["video_url"] = result.get("video_url")
@@ -90,7 +105,7 @@ def main():
         # Reserve this receipt before POST, including on timeout. Never silently resubmit.
         with args.receipt.open("x") as file:
             json.dump({"status": "submission_started", "title": bulletin["title"]}, file)
-        result = api("POST", "/videos", payload)
+        result = api("POST", "/v2/video/generate" if "video_inputs" in payload else "/v3/videos", payload)
         video_id = result.get("video_id")
         if not video_id:
             raise ValueError("No video ID returned. Check the API dashboard before another submission.")
