@@ -1,0 +1,94 @@
+{
+  "date": "2026-10-15",
+  "title": "Malten AI News Network | October 15, 2026 | Three-Minute Edition | Sponsored by Ruth Brown",
+  "scenes": [
+    {
+      "script": "Welcome to Malten AI News Network. I'm Marcus Reed, alongside Claire Bennett. Today is Thursday, October fifteenth, twenty twenty-six. Here's our three-minute edition: business opportunities, world headlines, sports and Baltimore's weather outlook.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "Reuters reports that two commercial ships have sunk near the Strait of Hormuz following separate projectile attacks. All twenty-one GFS Pride crew members were evacuated safely. Technology stocks also face pressure over artificial intelligence infrastructure debt. Importers should recheck freight quotations and schedules.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "In Baltimore, the Development Corporation connects businesses with support resources. Ideas to test include local delivery, repairs and digital services. Start with customer interviews and a paid pilot. These are business ideas, rather than announced contracts.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "Across Maryland, explore eMaryland Marketplace Advantage, or eMMA, for contracting resources. Check live solicitations, registration, certification requirements and deadlines. Consider subcontracting where your team can deliver reliably.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "In America, the Small Business Administration points prospective federal contractors to SAM dot gov. Check eligibility and registration requirements. Reuters also reports a judge extended White House access for CNN, MS NOW and Politico journalists. The administration has appealed.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "In Canada, July's Small Business Procurement Program announcement outlines reduced contracting barriers. Innovative Solutions Canada supports technology development and testing. Review each opportunity's eligibility before applying.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "In Africa, Reuters reports improved financial-market scores in twenty-one of twenty-nine surveyed countries, though limited trading remains a challenge. Our ideas to validate include cold storage, deliveries, equipment repairs and solar maintenance.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "In Australia, Austrade highlights solar, wind, storage and transmission opportunities. Investigate qualified supplier roles. In Europe, the Enterprise Europe Network lists distribution, manufacturing and technology partnerships. Verify buyers and commercial terms.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "In sports, Baltimore leads the AFC North at four and one in standings checked for this bulletin. The Ravens visit Cleveland Sunday, October eighteenth, at one p.m. Eastern on FOX. Reuters reports the Six Kings Slam tennis exhibition has moved to December twenty-seventh through thirtieth.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "Baltimore's early outlook for October nineteenth through twenty-fifth favors sunshine early in the week. Highs climb from around sixty-three degrees Fahrenheit Monday into the upper sixties by the weekend. Weeknight lows are mainly in the low fifties. Check updated forecasts before outdoor plans. I'm Claire Bennett.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "And I'm Marcus Reed. Before we close, thank you to Ruth Brown for sponsoring today's news bulletin. Ruth, we appreciate your support of Malten AI News Network. Subscribe for business, world news, sports and Baltimore weather. Have a productive day.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    }
+  ]
+}
