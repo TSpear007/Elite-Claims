@@ -40,7 +40,7 @@ jobs:
         run: |
           args=()
           if [ "$ALLOW_ARCHIVE" = "true" ]; then args+=(--allow-archive); fi
-          python malten/news-network/render.py preview --bulletin malten/news-network/bulletins/2026-10-15.json "${args[@]}"
+          python malten/news-network/render.py preview --bulletin malten/news-network/bulletins/2026-10-16.json "${args[@]}"
       - name: Submit reviewed bulletin
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.submit }}
         env:
@@ -53,7 +53,7 @@ jobs:
           fi
           args=()
           if [ "$ALLOW_ARCHIVE" = "true" ]; then args+=(--allow-archive); fi
-          python malten/news-network/render.py render --submit --bulletin malten/news-network/bulletins/2026-10-15.json "${args[@]}"
+          python malten/news-network/render.py render --submit --bulletin malten/news-network/bulletins/2026-10-16.json "${args[@]}"
       - name: Save submission receipt
         if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.submit }}
         uses: actions/upload-artifact@v4
