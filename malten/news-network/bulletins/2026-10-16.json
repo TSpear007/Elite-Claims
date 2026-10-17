@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-16",
+  "title": "Malten AI News Network | Friday October 16 2026 | Marcus Reed and Claire Bennett",
+  "scenes": [
+    {
+      "script": "Good evening and welcome to Malten AI News Network. I'm Marcus Reed, alongside Claire Bennett. It's Friday, October sixteenth, twenty twenty-six. Tonight we're focusing on practical opportunities for students, entrepreneurs and job seekers across the world.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "Thank you, Marcus. For African students considering international education, remote programs can offer access to universities without the cost of relocating. Check accreditation, tuition, internet requirements, time zones and whether the qualification will be recognized where you plan to work.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "For business owners in Africa, cold-chain storage, solar equipment maintenance, freight coordination and digital bookkeeping are services to investigate. Before investing, speak with paying customers, calculate costs, and test a small pilot. Cross-border traders should confirm customs requirements, product standards and payment protections.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "Across North America, small companies can explore government procurement portals and local supplier programs. In Maryland, eMaryland Marketplace Advantage lists state procurement opportunities. In the United States, federal opportunities are published through SAM dot gov. These are places to research, not guarantees of contracts.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "Here in Baltimore, entrepreneurs can investigate property maintenance, logistics support, technical repair and business services. Job seekers in America can search official employer career pages and state workforce agencies for openings in health care, skilled trades, technology and transportation. Verify every posting before sharing personal information.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "For weekend planning, check the latest Baltimore forecast with the National Weather Service before traveling. Sports fans can check the Baltimore Ravens official schedule for this weekend's game details and updates.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    },
+    {
+      "script": "Before we close, a special thank you to Ruth Brown for sponsoring this news bulletin. We appreciate your support. I'm Marcus Reed.",
+      "anchor": {
+        "name": "Marcus Reed",
+        "avatar_id": "170f573848f9b27881c44a38bcc3a118",
+        "voice_id": "049413e41c334753984c294d694afb5c"
+      }
+    },
+    {
+      "script": "And I'm Claire Bennett. Thank you for watching Malten AI News Network. Subscribe for global opportunities, business insights, Baltimore updates and more. Have a wonderful Friday evening.",
+      "anchor": {
+        "name": "Claire Bennett",
+        "avatar_id": "dff14beba0d4824701760a34cb57b813",
+        "voice_id": "41f17b4ebd334ac99a91c2aada5f86d7"
+      }
+    }
+  ]
+}
